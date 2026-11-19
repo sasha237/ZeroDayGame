@@ -1,0 +1,26 @@
+{
+  "name": "zero-day",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc -p packages/engine/tsconfig.json && tsc -p packages/client/tsconfig.json && tsc -p packages/server/tsconfig.json && tsc -p packages/sim/tsconfig.json",
+    "build": "tsc -p packages/engine/tsconfig.build.json && npm --workspace @aw/server run build && npm --workspace @aw/client run build && npm --workspace @aw/sim run build",
+    "dev": "npm --workspace @aw/client run dev",
+    "dev:server": "npm --workspace @aw/server run dev",
+    "start": "npm --workspace @aw/server run start",
+    "sim": "npm --workspace @aw/engine run build && tsx packages/sim/src/cli.ts",
+    "test:e2e": "playwright test",
+    "lh": "node tools/run-lighthouse.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "lighthouse": "13.5.0",
+    "typescript": "5.9.3",
+    "vitest": "4.1.12"
+  }
+}

@@ -1,0 +1,36 @@
+version: '2.4'
+services:
+  server:
+    build:
+      context: .
+      dockerfile: packages/server/Dockerfile
+    environment:
+      REPO: pg
+      DATABASE_URL: postgres://zero_day:zero_day@postgres:5432/zero_day
+      CLIENT_URL: http://127.0.0.1:5173
+      CORS_ORIGIN: http://127.0.0.1:5173
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: zero_day
+      POSTGRES_PASSWORD: zero_day
+      POSTGRES_DB: zero_day
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U zero_day -d zero_day"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+volumes:
+  pgdata:

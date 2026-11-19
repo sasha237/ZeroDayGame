@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+*.log
+*.tsbuildinfo
+coverage/
+playwright-report/
+test-results/
+e2e/screenshots/
+sim-report*.md
+sim-report*.json
+.lh-tmp/
+.DS_Store
+Thumbs.db
